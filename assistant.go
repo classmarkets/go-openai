@@ -14,25 +14,39 @@ const (
 )
 
 type Assistant struct {
-	ID           string          `json:"id"`
-	Object       string          `json:"object"`
-	CreatedAt    int64           `json:"created_at"`
-	Name         *string         `json:"name,omitempty"`
-	Description  *string         `json:"description,omitempty"`
-	Model        string          `json:"model"`
-	Instructions *string         `json:"instructions,omitempty"`
-	Tools        []AssistantTool `json:"tools"`
-	FileIDs      []string        `json:"file_ids,omitempty"`
-	Metadata     map[string]any  `json:"metadata,omitempty"`
+	ID            string          `json:"id"`
+	Object        string          `json:"object"`
+	CreatedAt     int64           `json:"created_at"`
+	Name          *string         `json:"name,omitempty"`
+	Description   *string         `json:"description,omitempty"`
+	Model         string          `json:"model"`
+	Instructions  *string         `json:"instructions,omitempty"`
+	Tools         []AssistantTool `json:"tools"`
+	FileIDs       []string        `json:"file_ids,omitempty"`
+	Metadata      map[string]any  `json:"metadata,omitempty"`
+	ToolResources ToolResources   `json:"tool_resources,omitempty"`
 
 	httpHeader
+}
+
+type ToolResources struct {
+	FileSearch      *FileSearchResources      `json:"file_search,omitempty"`
+	CodeInterpreter *CodeInterpreterResources `json:"code_interpreter,omitempty"`
+}
+
+type FileSearchResources struct {
+	VectorStoreIDs []string `json:"vector_store_ids"`
+}
+
+type CodeInterpreterResources struct {
+	FileIDs []string `json:"file_ids"`
 }
 
 type AssistantToolType string
 
 const (
 	AssistantToolTypeCodeInterpreter AssistantToolType = "code_interpreter"
-	AssistantToolTypeRetrieval       AssistantToolType = "retrieval"
+	AssistantToolTypeFileSearch      AssistantToolType = "file_search"
 	AssistantToolTypeFunction        AssistantToolType = "function"
 )
 

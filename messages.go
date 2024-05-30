@@ -12,18 +12,27 @@ const (
 )
 
 type Message struct {
-	ID          string           `json:"id"`
-	Object      string           `json:"object"`
-	CreatedAt   int              `json:"created_at"`
-	ThreadID    string           `json:"thread_id"`
-	Role        string           `json:"role"`
-	Content     []MessageContent `json:"content"`
-	FileIds     []string         `json:"file_ids"` //nolint:revive //backwards-compatibility
-	AssistantID *string          `json:"assistant_id,omitempty"`
-	RunID       *string          `json:"run_id,omitempty"`
-	Metadata    map[string]any   `json:"metadata"`
+	ID          string              `json:"id"`
+	Object      string              `json:"object"`
+	CreatedAt   int                 `json:"created_at"`
+	ThreadID    string              `json:"thread_id"`
+	Role        string              `json:"role"`
+	Content     []MessageContent    `json:"content"`
+	AssistantID *string             `json:"assistant_id,omitempty"`
+	RunID       *string             `json:"run_id,omitempty"`
+	Metadata    map[string]any      `json:"metadata"`
+	Attachments []MessageAttachment `json:"attachments,omitempty"`
 
 	httpHeader
+}
+
+type MessageAttachment struct {
+	FileID string        `json:"file_id"`
+	Tools  []MessageTool `json:"tools"`
+}
+
+type MessageTool struct {
+	Type string `json:"type"`
 }
 
 type MessagesList struct {
@@ -42,6 +51,7 @@ type MessageContent struct {
 	Text      *MessageText `json:"text,omitempty"`
 	ImageFile *ImageFile   `json:"image_file,omitempty"`
 }
+
 type MessageText struct {
 	Value       string `json:"value"`
 	Annotations []any  `json:"annotations"`

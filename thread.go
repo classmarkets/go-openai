@@ -33,11 +33,18 @@ const (
 	ThreadMessageRoleUser ThreadMessageRole = "user"
 )
 
+type ContentInterface interface{}
+
 type ThreadMessage struct {
-	Role     ThreadMessageRole `json:"role"`
-	Content  string            `json:"content"`
-	FileIDs  []string          `json:"file_ids,omitempty"`
-	Metadata map[string]any    `json:"metadata,omitempty"`
+	Role        ThreadMessageRole  `json:"role"`
+	Content     ContentInterface   `json:"content"`
+	Metadata    map[string]any     `json:"metadata,omitempty"`
+	Attachments []ThreadAttachment `json:"attachments,omitempty"`
+}
+
+type ThreadAttachment struct {
+	FileID string        `json:"file_id"`
+	Tools  []MessageTool `json:"tools,omitempty"`
 }
 
 type ThreadDeleteResponse struct {
